@@ -54,8 +54,10 @@ Le fichier brut disponible (\texttt{tnet\_malawi\_pilot.csv}) contient les colon
     \item une colonne \textit{``Unnamed: 0''} issue de l’export, supprimée lors du prétraitement.
 \end{itemize}
 
-Chaque ligne correspond donc à un \emph{événement de contact}. Lorsque deux personnes 
-interagissent plusieurs fois, plusieurs lignes peuvent apparaître.
+
+Chaque ligne correspond à un \emph{événement de contact}, et plusieurs lignes peuvent
+correspondre à une même paire d’individus.
+
 
 \subsection*{Nettoyage appliqué}
 
@@ -98,9 +100,6 @@ Il montre une densité exceptionnelle de triangles, traduisant des sous-groupes 
 aux ménages.
 
 La \textbf{distance moyenne} de \textbf{2.6153} et le \textbf{diamètre} limité à \textbf{5} indiquent une structure compact. 
-Malgré la présence de clusters internes, les individus restent proches les uns des autres, en moyenne à deux ou trois 
-intermédiaires.  
-
 Le réseau présente ainsi les caractéristiques typiques d’un small-world : forte densité locale et communication rapide 
 à l’échelle globale.
 
@@ -111,9 +110,7 @@ Le réseau présente ainsi les caractéristiques typiques d’un small-world : f
 La \textbf{betweenness centrality} met en évidence les individus jouant un rôle d’intermédiaire entre différentes parties 
 du réseau. Le nœud \textbf{16} se distingue particulièrement avec une valeur de \textbf{0.3197}, nettement supérieure 
 à celles des nœuds 81 et 74.  
-
-Il occupe une position stratégique : de nombreux plus courts chemins reliant des individus distincts passent par lui. 
-Son rôle de pont contribue fortement à la cohésion du réseau, rendant sa position structurellement essentielle.
+Il occupe une position stratégique de pont entre différentes parties du réseau.
 
 \subsection{Eigenvector Centrality}
 
@@ -154,7 +151,7 @@ La \textbf{distance moyenne} observée dans les graphes ER est de \textbf{2.3389
 réel, ce qui reflète l’absence de structure interne.  
 
 Enfin, la \textbf{modularity} obtenue dans ER est d’environ \textbf{0.292}, très éloignée de la valeur réelle \textbf{0.893}.  
-Cela montre que le réseau ne peut absolument pas être assimilé à un graphe aléatoire simple.
+Le réseau ne peut donc pas être assimilé à un graphe aléatoire simple.
 
 \subsection{Configuration Model}
 
@@ -175,7 +172,7 @@ suivi par les nœuds 81, 86, 74 et 70.
 Cela confirme que certaines personnes concentrent naturellement une part importante de la dynamique sociale, 
 en raison de leur positionnement structurel.
 
-\section{Profil temporel des interactions}
+
 
 L’analyse des contacts par heure met en évidence des variations significatives de l’activité sociale. 
 Les heures \textbf{30} et \textbf{31} présentent des pics importants, avec respectivement \textbf{9217} et \textbf{9902} contacts.  
@@ -183,26 +180,6 @@ Les heures \textbf{30} et \textbf{31} présentent des pics importants, avec resp
 Ces fluctuations suggèrent l’existence de routines collectives ou de moments de rassemblement intense, montrant que 
 le réseau n’est pas seulement structuré spatialement, mais également temporellement.
 
-\section{Interprétation}
-
-L’analyse confirme l’hypothèse centrale de l’article : les ménages constituent des unités sociales fortement cohésives. 
-Le \textbf{clustering élevé (0.5269)} et la \textbf{modularity exceptionnelle (0.893)} montrent que les interactions sont 
-intensément concentrées à l’intérieur de groupes soudés.  
-
-Cependant, nos résultats révèlent un aspect que l’article ne développe pas entièrement. Les mesures de centralité, 
-notamment la \textbf{betweenness (0.3197)} et la \textbf{closeness (0.5845)} du nœud 16, montrent que certains individus 
-jouent un rôle déterminant dans la connectivité entre ménages. Le réseau ne se limite pas à des foyers séparés : 
-il est relié par un petit nombre de personnes-pivots essentielles pour la cohésion globale.
-
-L’identification d’un noyau interne, via l’eigenvector centrality, montre que la structure sociale ne repose pas 
-uniquement sur les familles. Certains individus occupent des positions stabilisatrices au sein des clusters.
-
-Enfin, l’analyse temporelle révèle des pics d’activité collective, soulignant une organisation sociale qui suit 
-des rythmes réguliers.
-
-Dans l’ensemble, le village apparaît comme un système social structuré par des clusters familiaux forts mais 
-maintenu cohérent par quelques individus clés qui assurent la connectivité entre ces clusters. Ces résultats confirment 
-et enrichissent les observations de l’article.
 
 
 % =============================================================
@@ -213,69 +190,7 @@ et enrichissent les observations de l’article.
 
 % =============================================================
 \section{Analyse communautaire}
-\subsection{via l'algorithme de Louvain}
-
-Nous appliquons l’algorithme de Louvain sur deux versions du réseau :  
-(i) le graphe non pondéré $G$, et (ii) le graphe pondéré $G_w$ où le poids représente la durée cumulée des interactions.
-
-\medskip
-
-Les résultats obtenus sont les suivants :
-
-\begin{itemize}
-    \item \textbf{Graphe non pondéré :} 10 communautés, modularité = \textbf{0.511}.
-    \item \textbf{Graphe pondéré :} 22 communautés, modularité = \textbf{0.893}.
-\end{itemize}
-
-La modularité pondérée exceptionnellement élevée confirme que les interactions sont très concentrées au sein des ménages, avec relativement peu de liens entre foyers. L’algorithme détecte donc un nombre important de communautés lorsqu'il tient compte des poids.
-
-\medskip
-
-\subsubsection*{Stabilité du Louvain}
-
-Afin d’évaluer la robustesse de l’algorithme, nous répétons Louvain sur 20 exécutions indépendantes. Les résultats montrent que :
-
-\begin{itemize}
-    \item le graphe non pondéré oscille entre \textbf{9} et \textbf{10} communautés ;
-    \item le graphe pondéré est \textbf{parfaitement stable} : \textbf{22 communautés} à chaque exécution.
-\end{itemize}
-
-Cette stabilité accrue dans le cas pondéré s’explique par la présence de poids très contrastés entre contacts intra- et inter-ménages, qui rigidifient la structure communautaire.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.70\linewidth]{images/article2/2.png}
-\caption{Stabilité du nombre de communautés détectées par Louvain}
-\label{fig:louvain_stability}
-\end{figure}
-
-\subsubsection*{Comparaison avec l’article}
-
-L’article de référence rapporte, pour le réseau complet (86 nœuds et 355 arêtes) :
-
-\begin{itemize}
-    \item \textbf{8 communautés} dans le réseau non pondéré (modularité = \textbf{0.48}),
-    \item \textbf{13 communautés} dans le réseau pondéré (modularité = \textbf{0.75}).
-\end{itemize}
-
-Nos résultats diffèrent de manière notable :
-
-\begin{enumerate}
-    \item Nous observons \textbf{10 communautés} (non pondéré) et \textbf{22 communautés} (pondéré),  
-          soit davantage que les \textbf{8} et \textbf{13} communautés rapportées dans l'étude.
-
-    \item Notre modularité pondérée (\textbf{0.893}) est beaucoup plus élevée que celle de l'article (\textbf{0.75}),  
-          ce qui reflète une segmentation communautaire plus forte.
-
-    \item Ces écarts s’expliquent par des différences structurelles dans le dataset utilisé :  
-          après agrégation des contacts, notre version contient \textbf{347 arêtes} et non 355,  
-          ce qui réduit la connectivité inter-ménages et accentue artificiellement les frontières entre communautés.
-\end{enumerate}
-
-\medskip
-
-Malgré ces divergences quantitatives, les deux analyses convergent vers la même conclusion qualitative :  
-\textbf{les ménages constituent les unités communautaires dominantes du réseau}, et la modularité élevée indique une forte cohésion interne et des interactions limitées entre groupes.
+Comme l'algorithme de Louvain  a déjà été présenté dans l'article d'origine, nous nous concentrons ici sur deux autres approches complémentaires.   
 \subsection{Méthodes basées sur des marches aléatoires}
 
 Les méthodes fondées sur des marches aléatoires exploitent la manière dont un flux 
@@ -374,16 +289,18 @@ et la \textbf{dynamique de consensus} $\dot{x}=-Lx$.
 \subsection{Spectral clustering}
 
 Nous appliquons un spectral clustering en fixant le nombre de communautés à 
-$k = 10$, valeur obtenue via Louvain non pondéré.
+$k = 8 $, conformément au résultat obtenu avec Louvain non pondéré dans l’article de référence.
 
 Le résultat obtenu est le suivant :
 
 \[
-\text{10 communautés avec tailles } 
-[24,\ 16,\ 14,\ 8,\ 6,\ 5,\ 5,\ 3,\ 3,\ 2].
+\text{8 communautés avec tailles } 
+[41,\ 21,\ 6,\ 5,\ 5,\ 3,\ 3,\ 2].
 \]
 
-Ces tailles montrent une structure modulaire cohérente : 
+
+
+Ces tailles montrent une structure modulaire cohérente 
 quelques communautés de taille moyenne dominent la décomposition, 
 accompagnées de plusieurs groupes plus petits, probablement liés 
 à des ménages ou sous-ménages.
@@ -413,13 +330,9 @@ Ces résultats permettent plusieurs observations majeures :
 
 \begin{enumerate}
     \item \textbf{Présence de deux valeurs propres nulles.}  
-    Selon le théorème spectral du Laplacien, la multiplicité de 
-    $\lambda_1 = 0$ correspond au nombre de composantes connexes.  
-    La présence de deux valeurs nulles indique que le réseau Malawi 
-    contient exactement deux composantes connexes.
-    
-    Cela correspond à l’existence de deux individus totalement isolés
-    du reste de la population.
+Selon le théorème spectral du Laplacien, 
+La présence de deux valeurs nulles indique donc que le réseau Malawi n’est pas entièrement connecté : il se compose d’une grande composante principale et d’une petite composante isolée.
+Cette composante secondaire regroupe des individus n’ayant enregistré aucun contact avec le reste du village, probablement parce qu’ils ont été très peu présents ou ont porté le capteur de manière incorrecte durant la période d’observation.
 
     \item \textbf{Valeurs propres faibles ($\lambda_2$, $\lambda_3$, …).}  
     Les valeurs proches de zéro ($0.067$, $0.133$, $0.147$) indiquent 
@@ -463,89 +376,129 @@ les clusters internes se stabilisent très vite, tandis que
 l’harmonisation entre clusters est graduelle.
 
 
-\section{Analyse multi-échelle : $\gamma$-modularity }
-
-
-L'approche $\gamma$-modularity permet d'étudier la structure communautaire 
-du réseau à différentes échelles de résolution. Elle repose sur une 
-généralisation de la modularité classique où le paramètre $\gamma$ 
-contrôle le degré de sensibilité aux petites ou grandes communautés.  
-Un $\gamma$ faible favorise des communautés larges, tandis qu’un $\gamma$ 
-élevé tend à subdiviser le réseau en modules plus fins.
-
-Nous appliquons l’algorithme de Louvain pondéré pour plusieurs valeurs 
-de $\gamma \in \{0.5, 1.0, 1.5, 2.0, 3.0\}$.  
-Les résultats obtenus sont résumés ci-dessous :
-
-\begin{itemize}
-    \item $\gamma = 0.5$ : 26 communautés, $Q = 0.8860$
-    \item $\gamma = 1.0$ : 22 communautés, $Q = 0.8930$ (maximum observé)
-    \item $\gamma = 1.5$ : 23 communautés, $Q = 0.8903$
-    \item $\gamma = 2.0$ : 23 communautés, $Q = 0.8903$
-    \item $\gamma = 3.0$ : 23 communautés, $Q = 0.8903$
-\end{itemize}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\linewidth]{images/article2/4.png}
-\caption{Nombre de communautés détectées en fonction du paramètre $\gamma$.}
-\end{figure}
-
-Ces résultats montrent une structure multi-échelle stable :
-
-\begin{itemize}
-    \item Pour $\gamma = 0.5$, le réseau est divisé en davantage de petites 
-    communautés (26), reflétant une sur-segmentation des ménages.
-    \item Pour $\gamma = 1.0$, on observe le niveau de modularité maximal 
-    ($Q = 0.8930$) avec 22 communautés.
-    \item Pour $\gamma \geq 1.5$, la partition devient remarquablement stable 
-    avec exactement 23 communautés pour trois valeurs consécutives de $\gamma$.
-\end{itemize}
-
-Cette stabilité suggère l’existence d’un niveau d’organisation modulaire 
-intrinsèque au réseau Malawi, correspondant probablement à la structuration 
-par ménages.
-
-% =============================================================
-
-
+\section{Structure core--periphery}
 
 \subsection{k-core decomposition}
 
-La décomposition en $k$-cores permet d’identifier le noyau structurel du réseau ainsi 
-que les individus situés en périphérie.  
-Un $k$-core est un sous-graphe maximal où chaque nœud possède un degré au moins égal à $k$.
+Dans le cas du réseau Malawi, le graphe complet comporte deux composantes connexes.
+Or, la décomposition en $k$-cores n’est pleinement interprétable que sur un graphe connexe.  
+Pour cette raison, nous appliquons l’analyse exclusivement sur la 
+\textbf{plus grande composante connexe (LCC)}, qui contient l’essentiel des interactions
+sociales du village.
 
-L’analyse sur le réseau Malawi donne les résultats suivants :
+\medskip
+
+La décomposition en $k$-cores permet d’identifier la structure interne du réseau.
+Un $k$-core est un sous-graphe maximal dans lequel chaque nœud possède un degré au 
+moins égal à $k$.
+
+\medskip
+L’analyse effectuée sur la LCC du réseau Malawi donne les résultats suivants :
 
 \begin{itemize}
-    \item $k$-core maximal : $\mathbf{7}$ ;
-    \item taille du noyau : \textbf{31 individus} ;
-    \item taille de la périphérie ($k = 1$) : \textbf{2 individus} 
-          (nœuds 72 et 10).
+    \item \textbf{$k$-core maximal : 7} ;
+    \item \textbf{taille du noyau (7-core) : 31 individus} ;
 \end{itemize}
 
-Cela révèle une structure interne fortement hiérarchisée :
+\medskip
 
-\begin{itemize}
-    \item le noyau ($7$-core) regroupe les individus les plus connectés,
-          souvent des adultes très actifs ou des HSA (Health Surveillance Assistants),
-          comme décrit dans l’article ;
-    \item la périphérie est extrêmement réduite, ce qui confirme que la majorité
-          du village participe de manière significative aux interactions sociales.
-\end{itemize}
+Ces résultats révèlent une structure interne fortement hiérarchisée.  
+Le noyau ($7$-core) regroupe les individus les plus connectés du village, 
+probablement des adultes actifs ou des Health Surveillance Assistants (HSA),
+dont le rôle social central a été souligné dans l’article scientifique.  
 
-La Figure~\ref{fig:kcore} illustre cette structure : les nœuds du noyau apparaissent en rouge.
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{images/article2/6.png}
-\caption{Structure core--periphery du réseau Malawi (k-core maximal = 7).}
+\caption{Structure k-core du réseau Malawi (analyse sur la LCC, $k$-core maximal = 7).}
 \label{fig:kcore}
 \end{figure}
 
-Cette organisation met en évidence un \textbf{noyau social dense et robuste}, 
-soutenu par un petit nombre d’individus centraux qui jouent un rôle clé dans 
-la connectivité globale du réseau.
+Cette organisation met en évidence un \textbf{noyau social dense }.
+Cela confirme que le réseau Malawi est caractérisé par une forte cohésion interne, 
+structurée autour d’un groupe central jouant un rôle crucial dans la connectivité globale
+et dans la propagation potentielle d’information ou d’infections.
+
+
+\subsection{Structure core--periphery basée sur les marches aléatoires}
+
+En complément de la décomposition en $k$-cores, qui repose uniquement sur le degré des nœuds,
+nous appliquons une méthode alternative de détection de la structure
+core--periphery fondée sur les marches aléatoires, telle que présentée au
+Chapitre~8 du syllabus.
+
+\medskip
+
+Cette approche repose sur une interprétation dynamique de la centralité.
+L’idée principale est d’analyser le comportement d’un marcheur aléatoire sur le réseau :
+un ensemble de nœuds est considéré comme central s’il est difficile pour une marche
+aléatoire de le quitter.
+
+\medskip
+
+Soit $S$ un ensemble de nœuds. La \emph{probabilité de persistance} $\alpha_S$ est définie comme
+la probabilité qu’un marcheur aléatoire, conditionné à être dans $S$ à un instant donné,
+reste dans $S$ au pas de temps suivant. Dans le cas d’un graphe non orienté, cette quantité
+s’écrit :
+\[
+\alpha_S = \frac{\sum_{i,j \in S} A_{ij}}{\sum_{i \in S} k_i},
+\]
+où $A_{ij}$ est la matrice d’adjacence et $k_i$ le degré du nœud $i$.
+
+\medskip
+
+Afin d’identifier la structure core--periphery, nous utilisons un algorithme glouton.
+L’algorithme démarre à partir d’un nœud de degré minimal, puis ajoute itérativement
+le nœud qui minimise la valeur de $\alpha_S$.
+À chaque étape, la valeur de $\alpha_S$ associée à l’ajout d’un nœud définit sa
+\emph{coreness} $\alpha_i$.
+Plus $\alpha_i$ est élevé, plus le nœud est central du point de vue de la dynamique
+de marche aléatoire.
+
+\medskip
+
+Plutôt que de fixer un seuil unique, nous considérons $\alpha$ comme un paramètre continu.
+Pour chaque valeur de $\alpha \in [0,1]$, nous définissons la
+\emph{$\alpha$-périphérie} comme l’ensemble des nœuds satisfaisant $\alpha_i \le \alpha$.
+Cette approche permet d’observer la dynamique d’absorption progressive des nœuds
+depuis la périphérie vers le cœur.
+
+\medskip
+
+L’analyse réalisée sur la plus grande composante connexe (LCC), qui contient 84 nœuds,
+montre une augmentation progressive et régulière de la taille de la périphérie lorsque
+$\alpha$ augmente. Pour $\alpha = 0.1$, la périphérie contient 28 nœuds, tandis que
+le cœur regroupe les 56 nœuds restants.
+
+\medskip
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{images/article2/7.png}
+\caption{Dynamique d’absorption de la périphérie en fonction de $\alpha$ sur le réseau Malawi.}
+\label{fig:rw_dynamics}
+\end{figure}
+
+\medskip
+
+Contrairement à la décomposition en $k$-cores, la structure obtenue par la méthode
+RW-based ne repose pas uniquement sur le degré des nœuds, mais sur leur rôle global
+dans la stabilité des trajectoires de marche aléatoire.
+Le cœur RW-based est ainsi plus large que le $k$-core maximal, ce qui suggère que
+la centralité dynamique dépasse la simple connectivité locale.
+
+\medskip
+
+Cette analyse met en évidence le caractère complémentaire des deux approches :
+le $k$-core identifie les nœuds fortement connectés localement, tandis que la méthode
+RW-based capture une notion plus globale et dynamique de centralité au sein du réseau.
+
+
+
+
+
 
 
 % =============================================================
@@ -589,7 +542,7 @@ et distribution stationnaire de la marche aléatoire.
 Les nœuds ayant les plus fortes valeurs dans ces mesures jouent un rôle
 d’amplificateur potentiel dans la diffusion épidémique.
 
-Le classement obtenu est le suivant (top~10 selon la distribution stationnaire) :
+Le classement obtenu est le suivant  :
 
 \[
 \begin{array}{c|c|c|c}
@@ -600,11 +553,6 @@ Le classement obtenu est le suivant (top~10 selon la distribution stationnaire) 
 69 & 18 & 0.144 & 0.0260 \\
 74 & 17 & 0.234 & 0.0246 \\
 70 & 16 & 0.224 & 0.0231 \\
-1  & 16 & 0.182 & 0.0231 \\
-52 & 15 & 0.204 & 0.0217 \\
-63 & 15 & 0.214 & 0.0217 \\
-86 & 15 & 0.137 & 0.0217 \\
-33 & 14 & 0.216 & 0.0202
 \end{array}
 \]
 
@@ -614,8 +562,6 @@ Ce résultat est cohérent avec les analyses structurales et avec l’article qu
 mentionne que certains adultes très actifs jouent un rôle disproportionné
 dans les interactions sociales.
 
-Le nœud \textbf{67}, à l’inverse, présente les centralités les plus faibles
-et sert de cas extrême pour un scénario d’infection peu favorable.
 
 % =============================================================
 \subsection{Simulation SIR}
@@ -629,7 +575,7 @@ Deux scénarios opposés sont testés :
 
 \begin{itemize}
     \item \textbf{Patient zéro = superspreader} (nœud 16) ;
-    \item \textbf{Patient zéro = individu périphérique} (nœud 67).
+    \item \textbf{Patient zéro = individu périphérique}.
 \end{itemize}
 
 \begin{figure}[H]
@@ -648,20 +594,36 @@ Les résultats montrent une différence radicale :
 \end{itemize}
 
 % =============================================================
-\section{Conclusion}
-% =============================================================
 
-Dans l’ensemble, l’analyse théorique (centralités, spectre, détection de communautés, $k$-core), les modèles aléatoires, les dynamiques fondées sur les marches aléatoires, la dynamique de consensus et les simulations SIR convergent vers une conclusion cohérente.
+\section{Conclusion générale}
 
-Le réseau Malawi apparaît comme un système social \textbf{hautement structuré}, organisé autour de \textbf{ménages fortement cohésifs} et reliés entre eux par un \textbf{noyau d’individus clés} qui assurent la connectivité globale. Cette combinaison d’un enracinement communautaire très fort et d’un petit nombre d’acteurs centraux explique simultanément :
+Ce travail a permis d’analyser la structure et les dynamiques du réseau de contacts
+du village de Mdoliro (Malawi)en mobilisant les principaux outils du cours de \textit{Graph Mining}.
 
-\begin{itemize}
-    \item la robustesse de la structure sociale locale ;
-    \item la forte modularité observée ;
-    \item la sensibilité du réseau à une diffusion épidémique lorsque les individus centraux sont infectés.
-\end{itemize}
+Les analyses montrent que le réseau est fortement structuré autour de
+\textbf{ménages très cohésifs}, comme l’indiquent le clustering élevé, la modularité
+exceptionnelle et la convergence rapide observée dans la dynamique de consensus
+à l’échelle locale. Ces résultats confirment les conclusions de l’article scientifique
+de référence.
 
-Ainsi, notre analyse confirme et étend les résultats de l’article du Malawi, en mobilisant l’ensemble des outils vu en  cours de \textit{Graph Mining}. 
+Au-delà de cette organisation locale, l’étude met en évidence l’existence d’un
+\textbf{noyau restreint d’individus centraux} jouant un rôle clé dans la connectivité
+globale du réseau. Les mesures de centralité, les méthodes de détection de communautés
+(\textit{Infomap} et \textit{Walktrap}), la décomposition en $k$-cores et l’analyse
+core--periphery basée sur les marches aléatoires identifient de manière cohérente
+ces acteurs, qui assurent la liaison entre les ménages.
+
+La comparaison avec des modèles aléatoires montre que cette structure ne peut être
+expliquée ni par le hasard ni par la seule distribution des degrés, mais reflète une
+organisation sociale réelle et hiérarchique.
+
+Enfin, l’analyse épidémique souligne les implications pratiques de cette structure :
+la présence d’individus centraux rend le réseau vulnérable à une propagation rapide
+des infections, comme l’illustrent les simulations SIR.
+
+En conclusion, cette étude confirme et enrichit les résultats de l’article original
+en proposant une analyse à la fois structurelle et dynamique du réseau Malawi.
+
 \end{document}
 
 
